@@ -15,17 +15,17 @@ Serverless this, serverless that. What’s the big deal? Well, if you’re  As a
 
 
 
-Prep & Installations:
+### Prep & Installations:
 
-Be sure Golang [link] is installed and Go tools are set up to run our application.
-You’ll need to download Homebrew [link] to download your driver. In this tutorial we’ll be using xhyve [link].
-Install Docker (Docker for Mac [link] is recommended for Mac users)
+- Be sure Golang [link] is installed and Go tools are set up to run our application.
+- You’ll need to download Homebrew [link] to download your driver. In this tutorial we’ll be using xhyve [link].
+- Install Docker (Docker for Mac [link] is recommended for Mac users)
 
 
 
-Now let’s get into it!
+**Now let’s get into it!**
 
-Create a Minikube Cluster:
+## Create a Minikube Cluster:
 
 In this tutorial, we’ll be using Minikube to create a cluster locally. Just as the original example tutorial, this tutorial also assumes that you are using Docker for Mac. If you are on a different platform (Windows, Linux, etc.), see the Minikube installation guide as the instructions [link] might be different. 
 
@@ -50,7 +50,7 @@ Now let’s go ahead and start the Minikube cluster:
 
         minikube start --vm-driver=xhyve
 
-(Note that the --vm-driver=xhyve  flag specifies that you are using Docker for Mac)
+>(Note that the --vm-driver=xhyve  flag specifies that you are using Docker for Mac)
 
 
 
@@ -73,11 +73,11 @@ Let’s create our Golang application!
 
 Before we go writing any code, we need to make sure we set up a workspace. 
 
-Create a folder on your desktop named ‘goworkspace’. Now inside this folder, we’re gonna create 3 folders -- ‘bin’, ‘pkg’, and ‘src’. Inside the src folder is where our source code files will live. 
+Create a folder on your desktop named **‘goworkspace’**. Now inside this folder, we’re gonna create 3 folders: **‘bin’**, **‘pkg’**, and **‘src’**. Inside the **src** folder is where our source code files will live. 
 
 
  
-Now we can create our Go application. Inside your favorite text editor, copy and paste the code below. When you’re done, you can hit Save or Save As to save the file, and name it helloworld.go. Make sure you’ve selected the src folder as the parent folder.
+Now we can create our Go application. Inside your favorite text editor, copy and paste the code below. When you’re done, you can hit Save or Save As to save the file, and name it **helloworld.go**. Make sure you’ve selected the _src_ folder as the parent folder.
 
 
         package main
@@ -107,3 +107,59 @@ We’ve built our app, now let’s run it by heading into our src directory in t
 You may get a prompt like the one below.
 
 [insert photo]
+
+
+
+
+Select **Allow**, then in your browser, go to http://localhost:8080/
+
+There we should see our message, **_Hello World!!_**
+
+To stop running the server, hit _Ctrl-C_.
+
+
+
+ ### What just happened?..
+
+
+
+
+In the next step, we’ll be packaging our application in a Docker container.
+
+
+## Create a Docker Container Image
+
+For this tutorial, we’re just going to create a simple onbuild Dockerfile. Onbuild Dockerfiles infer that our Go app’s project structure is standard and simple, and so it will build as such. 
+
+With that said, in your text editor, create a new file and copy and paste the following:
+
+        FROM golang:onbuild
+        EXPOSE 8080
+
+
+As you can see, the second line exposes port 8080 for ...
+
+Now let’s name this file **‘Dockerfile’** (_no extension_), and make sure it’s saved in our **src** folder. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
