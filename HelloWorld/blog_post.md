@@ -129,18 +129,17 @@ In the next step, we’ll be packaging our application in a Docker container.
 
 ## Create a Docker Container Image
 
-For this tutorial, we’re just going to create a simple onbuild Dockerfile. Onbuild Dockerfiles infer that our Go app’s project structure is standard and simple, and so it will build as such. 
+For this tutorial, we’re just going to create a simple onbuild Dockerfile. Onbuild Dockerfiles infer that our Go app’s project structure is standard and simple, and so it automatically copies the package source, then builds the program and configures it to run upon startup. 
 
 With that said, in your text editor, create a new file and copy and paste the following:
 
-        FROM golang:onbuild
-        EXPOSE 8080
+                FROM golang:onbuild
+                EXPOSE 8080
 
 
-As you can see, the second line exposes port 8080 for ...
+ >The second line states which port the service will listen on (8080).
 
-Now let’s name this file **‘Dockerfile’** (_no extension_), and make sure it’s saved in our **src** folder. 
-
+Now let’s name this file ‘Dockerfile’ (no extension), and make sure it’s saved in our **src** folder. 
 
 
 
