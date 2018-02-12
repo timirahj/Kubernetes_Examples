@@ -17,9 +17,9 @@ Serverless this, serverless that. What’s the big deal? Well, if you’re  As a
 
 ### Prep & Installations:
 
-- Be sure Golang [link] is installed and Go tools are set up to run our application.
-- You’ll need to download Homebrew [link] to download your driver. In this tutorial we’ll be using xhyve [link].
-- Install Docker (Docker for Mac [link] is recommended for Mac users)
+- Be sure [Golang](https://golang.org/doc/install) is installed and Go tools are set up to run our application.
+- You’ll need to download [Homebrew](https://docs.brew.sh/Installation.html) to download your driver. In this tutorial we’ll be using [xhyve](https://github.com/mist64/xhyve).
+- Install Docker ([Docker for Mac](https://docs.docker.com/docker-for-mac/#preferences) is recommended for Mac users)
 
 
 
@@ -27,7 +27,7 @@ Serverless this, serverless that. What’s the big deal? Well, if you’re  As a
 
 ## Create a Minikube Cluster:
 
-In this tutorial, we’ll be using Minikube to create a cluster locally. Just as the original example tutorial, this tutorial also assumes that you are using Docker for Mac. If you are on a different platform (Windows, Linux, etc.), see the Minikube installation guide as the instructions [link] might be different. 
+In this tutorial, we’ll be using Minikube to create a cluster locally. Just as the original example tutorial, this tutorial also assumes that you are using Docker for Mac. If you are on a different platform (Windows, Linux, etc.), see the [Minikube installation guide](https://github.com/kubernetes/minikube) as the instructions might be different. 
 
 Use curl to download the latest release of Minikube:
 
@@ -66,80 +66,84 @@ Now let’s check to see if kubectl is all configured to interact with our clust
 
 
 
-What just happened?..
+### What just happened?..
 
 
-Let’s create our Golang application!
-
-Before we go writing any code, we need to make sure we set up a workspace. 
-
-Create a folder on your desktop named **‘goworkspace’**. Now inside this folder, we’re gonna create 3 folders: **‘bin’**, **‘pkg’**, and **‘src’**. Inside the **src** folder is where our source code files will live. 
+## Let’s create our Golang application!
 
 
- 
-Now we can create our Go application. Inside your favorite text editor, copy and paste the code below. When you’re done, you can hit Save or Save As to save the file, and name it **helloworld.go**. Make sure you’ve selected the _src_ folder as the parent folder.
+Go and download the HelloWorld source code by running the commands below:
 
+        git clone https://github.com/timirahj/kubernetes_examples
+        cd kubernetes_examples/helloworld
 
-        package main
-        
-        import (
-        "fmt"
-        "net/http"
-        )
-        
-        func main() {
-          http.HandleFunc("/", HelloServer)
-          http.ListenAndServe(":8080", nil)
-        }
-        
-        func HelloServer(rw http.ResponseWriter, req *http.Request) {
-          fmt.Fprint(rw, "Hello World!!")
-        }
-
-
-
-We’ve built our app, now let’s run it by heading into our src directory in the terminal as so (assuming you’re still checked into the Desktop directory):
-
-        cd goworkspace/src
-        go run helloworld.go
-
-
-You may get a prompt like the one below.
-
-[insert photo]
-
-
-
-
-Select **Allow**, then in your browser, go to http://localhost:8080/
-
-There we should see our message, **_Hello World!!_**
-
-To stop running the server, hit _Ctrl-C_.
-
-
-
- ### What just happened?..
-
-
+If you take a look inside the repo, a Dockerfile has already been created. A Dockerfile typically contains all the instructions on how the image is built. However, if you open our Dockerfile, you will notice that it looks a little vague with only two simple commands. Is this Dockerfile complete? Actually, yes! Golang has a variant called “onbuild” which simplifies the build process for our Docker image. When we use the onbuild variant, we’re implying that our image application should be built with generalized instructions as any generic Go application, and the image automatically copies the package source then builds the program and configures it to run upon startup. 
 
 
 In the next step, we’ll be packaging our application in a Docker container.
 
 
-## Create a Docker Container Image
+## Create our Docker Image
 
-For this tutorial, we’re just going to create a simple onbuild Dockerfile. Onbuild Dockerfiles infer that our Go app’s project structure is standard and simple, and so it automatically copies the package source, then builds the program and configures it to run upon startup. 
+Now let’s build our container image and tag it:
 
-With that said, in your text editor, create a new file and copy and paste the following:
-
-                FROM golang:onbuild
-                EXPOSE 8080
+        docker build -t helloworld:v1 .
 
 
- >The second line states which port the service will listen on (8080).
+Let’s double check to see if our build succeeded. If it was, we’ll see our image listed by running this command:
 
-Now let’s name this file ‘Dockerfile’ (no extension), and make sure it’s saved in our **src** folder. 
+        docker images
+
+
+
+### Push your Docker Image to the Cloud
+
+Now we need to push our container to a registry, so we’ll use DockerHub for this tutorial.
+
+If you’re running Docker for Mac, make sure you’re logged into your Docker account and that Docker is running on your machine. You can do that by clicking the Docker icon at the top of your screen. You should see a green light to verify that it’s running. 
+
+([Click here for these instructions using other operating systems](https://docs.docker.com/docker-for-windows/install/).)
+
+
+Go to [https://hub.docker.com](https://hub.docker.com), log in, then create a repository called hello-world (_ex. timirahj/hello-world_). 
+
+
+Now let’s log into the Docker Hub from the command line:
+
+        docker login --username=yourhubusername --email=youremail@company.com
+
+
+Then enter your password when prompted.
+
+
+Now we’ll need to check the image ID:
+
+        docker images
+
+
+Your output should look something like this:
+
+        REPOSITORY              TAG       IMAGE ID         CREATED           SIZE
+        hello-world              v1      056yb71fy406      3 minutes ago    1.076 GB
+        monty_grapher          latest    pp58734h67dd     13 minutes ago    1.658 GB
+        steph/train            latest    9857j776f554      3 days ago       1.443 GB
+
+
+
+Update your image’s tag and the name of your Docker Hub repo:
+
+        docker tag 056yb71fy406 yourhubusername/hello-world:firstpush
+
+
+Finally, push the image to your Docker Hub repo:
+
+        docker push yourhubusername/hello-world
+
+
+
+
+
+ ### What just happened?..
 
 
 
