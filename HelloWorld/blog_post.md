@@ -5,7 +5,7 @@ Language: Golang
 Cluster management: Kubernetes, via Minikube
 Containerization: Docker (+DockerHub)
 FAAS: Fission
-Driver/Hypervisor: Virtualbox
+Driver/Hypervisor: xhyve
 
 
 
@@ -142,8 +142,23 @@ Finally, push the image to your Docker Hub repo:
 
 
 
+### Run the Container
+
+We can test out our container image first by running this command (_be sure to replace ‘yourusername’ with your actual DockerHub username_):
+
+        docker run yourusername/hello-world:firstpush
+
+Then open a new tab in your terminal and enter: 
+
+        curl http://localhost:8080
+        
+Lo and behold, there’s our _**‘Hello World’**_ message.
+
+
 
  ### What just happened?..
+
+
 
 
 
