@@ -15,10 +15,6 @@ Driver/Hypervisor: xhyve
 
 
 
-Serverless this, serverless that. What’s the big deal? Well, if you’re  As a developer (especially front-end), the learning curve for Kubernetes can be be super difficult (and annoying). 
-
-
-
 ### Prep & Installations:
 
 - Be sure [Golang](https://golang.org/doc/install) is installed and Go tools are set up to run our application.
