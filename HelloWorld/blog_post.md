@@ -156,7 +156,7 @@ Finally, push the image to your Docker Hub repo:
 
 We can test out our container image first by running this command (_be sure to replace ‘yourusername’ with your actual DockerHub username_):
 
-        docker run yourusername/hello_world:v1
+        docker run --p 8080:8080 yourusername/hello_world:v1
 
 Then open a new tab in your terminal and enter: 
 
