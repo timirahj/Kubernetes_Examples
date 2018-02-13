@@ -185,9 +185,9 @@ After we downloaded the application, we then created an image (which is an insta
 
 _Remember to stop the container from running by pressing Ctrl-C in the tab where you ran the docker run command._
 
-In Kubernetes, containers are interpreted as objects called Pods [link] (one or more containers in a group). The Pod in our cluster only has one container, the one we just created.
+In Kubernetes, containers are interpreted as objects called [Pods](https://kubernetes.io/docs/concepts/workloads/pods/pod/) (one or more containers in a group). The Pod in our cluster only has one container, the one we just created.
 
-Now how do we manage this Pod? Kubernetes provides a special supervisor for Pods called Deployments [link]. Deployments are responsible for monitoring and managing everything from scaling to version control for Pods. They also check and maintain the health of the containers within Pods. 
+Now how do we manage this Pod? Kubernetes provides a special supervisor for Pods called [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/). Deployments are responsible for monitoring and managing everything from scaling to version control for Pods. They also check and maintain the health of the containers within Pods. 
 
 
 To create a deployment, we’ll have to use Kubernetes’ kubectl for the following command:
