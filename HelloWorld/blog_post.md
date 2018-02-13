@@ -2,9 +2,13 @@
 
 
 Language: Golang
+
 Cluster management: Kubernetes, via Minikube
+
 Containerization: Docker (+DockerHub)
+
 FAAS: Fission
+
 Driver/Hypervisor: xhyve
 
 
@@ -245,6 +249,19 @@ Now we can check for our updated message:
 
 
 
+## A Clean Finish
+
+Now after all that hard work… **let’s throw it all away!**
+
+You can clean out your cluster simply by using:
+
+        kubectl delete service helloworld
+        kubectl delete deployment helloworld
+
+Stop Minikube, then delete it:
+        
+        minikube stop
+        minikube delete
 
 
 
