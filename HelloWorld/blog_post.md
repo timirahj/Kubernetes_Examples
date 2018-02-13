@@ -1,15 +1,13 @@
 # Hello World: Kubernetes
 
 
-Language: Golang
+Language: **Golang**
 
-Cluster management: Kubernetes, via Minikube
+Cluster management: **Kubernetes, via Minikube**
 
-Containerization: Docker (+DockerHub)
+Containerization: **Docker (+DockerHub)**
 
-FAAS: Fission
-
-Driver/Hypervisor: xhyve
+Driver/Hypervisor: **xhyve**
 
 
 
