@@ -72,6 +72,18 @@ Now let’s check to see if kubectl is all configured to interact with our clust
 
 ### What just happened?..
 
+So the first thing we did was create a Kubernetes cluster via a VM called Minikube. MiniKube is a popular tool used to run Kubernetes locally. Then we installed a hypervisor (xhyve) for Docker to run on Minikube.
+
+
+**_Insert diagram w/caption(s)_**
+
+After that, we configured Kubernetes’ command line-tool, **_kubectl_**, to communicate specifically with our minikube cluster. 
+
+
+
+**_Insert diagram w/caption(s)_**
+
+
 
 ## Let’s create our Golang application!
 
@@ -128,9 +140,9 @@ Now we’ll need to check the image ID:
 Your output should look something like this:
 
         REPOSITORY              TAG       IMAGE ID         CREATED           SIZE
-        hello-world              v1      056yb71fy406      3 minutes ago    1.076 GB
-        monty_grapher          latest    pp58734h67dd     13 minutes ago    1.658 GB
-        steph/train            latest    9857j776f554      3 days ago       1.443 GB
+        hello-world              v1      056yb71fy406      5 minutes ago    1.076 GB
+        monty_grapher          latest    pp58734h67dd     12 minutes ago    1.658 GB
+        steph/train            latest    9857j776f554      8 days ago       1.443 GB
 
 
 
