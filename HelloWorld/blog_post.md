@@ -216,7 +216,7 @@ Now let’s take a look at our Pod:
 
 ### What just happened?..
 
-Woah! So now our container has become a “Pod”, and we’ve Kubernetes has granted us a manager to keep tabs on our Pods health, scaling and load-balancing, and versioning. So if we had an application with 3 Pods, each of then representing a feature, our deployment would give us control over how and when we can roll out each feature. Powerful stuff huh? Makes microservices that much smoother. Speaking of microservices, let’s move on to the next and final phase of the tutorial.
+Woah! So now our container has become a “Pod”, and we’ve Kubernetes has granted us a manager to keep tabs on our Pod's health, scaling and load-balancing, and versioning. So if we had an application with 3 Pods, each of then representing a feature, our deployment would give us control over how and when we can roll out each feature. Powerful stuff huh? Makes microservices that much smoother. Speaking of microservices, let’s move on to the next and final phase of the tutorial.
 
 
 
