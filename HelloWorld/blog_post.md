@@ -222,7 +222,16 @@ Now let’s test to see if our Service is accessible:
 
 
 ## Updating your Application
+ 
+So now application is exposed, but now what if we need to make changes! Let’s see what our We want to change our message from_ “Hello World!!”_ to _“Finally Completed this Tutorial!!”_. 
 
+Let’s go into our source code (_helloworld.go file_) for our application and change it to return our new message.
+
+_Change line 16 in helloworld.go to:_
+ 
+        fmt.Fprint(rw, "Finally Completed this Tutorial!!")
+        
+Now we want to build a new version of our Docker image:
 
 
 
