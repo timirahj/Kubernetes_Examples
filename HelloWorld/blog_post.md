@@ -87,6 +87,10 @@ Go and download the HelloWorld source code by running the commands below:
         git clone https://github.com/timirahj/kubernetes_examples
         cd kubernetes_examples/helloworld
 
+> Our app is an http web server that prints a simple "Hello World" message. You can give it a test run using 
+**go run helloworld.go** and then opening **http://localhost:8080** in your browser.
+
+
 If you take a look inside the repo, a Dockerfile has already been created. A Dockerfile typically contains all the instructions on how the image is built. However, if you open our Dockerfile, you will notice that it looks a little vague with only two simple commands. Is this Dockerfile complete? Actually, yes! Golang has a variant called “onbuild” which simplifies the build process for our Docker image. When we use the onbuild variant, we’re implying that our image application should be built with generalized instructions as any generic Go application, and the image automatically copies the package source then builds the program and configures it to run upon startup. 
 
 
