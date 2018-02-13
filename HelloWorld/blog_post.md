@@ -23,7 +23,7 @@ Serverless this, serverless that. What’s the big deal? Well, if you’re  As a
 
 - Be sure [Golang](https://golang.org/doc/install) is installed and Go tools are set up to run our application.
 - You’ll need to download [Homebrew](https://docs.brew.sh/Installation.html) to download your driver. In this tutorial we’ll be using [xhyve](https://github.com/mist64/xhyve).
-- Install Docker ([Docker for Mac](https://docs.docker.com/docker-for-mac/#preferences) is recommended for Mac users)
+- Install Docker (We'll be using [Docker for Mac](https://docs.docker.com/docker-for-mac/#preferences) for this tutorial)
 
 
 
@@ -31,7 +31,7 @@ Serverless this, serverless that. What’s the big deal? Well, if you’re  As a
 
 ## Create a Minikube Cluster:
 
-In this tutorial, we’ll be using Minikube to create a cluster locally. Just as the original example tutorial, this tutorial also assumes that you are using Docker for Mac. If you are on a different platform (Windows, Linux, etc.), see the [Minikube installation guide](https://github.com/kubernetes/minikube) as the instructions might be different. 
+In this tutorial, we’ll be using Minikube to create a cluster locally. If you are not using a Mac, see the [Minikube installation guide](https://github.com/kubernetes/minikube) as the instructions might be different. 
 
 Use curl to download the latest release of Minikube:
 
@@ -126,10 +126,10 @@ Go to [https://hub.docker.com](https://hub.docker.com), log in, then create a re
 
 Now let’s log into the Docker Hub from the command line:
 
-        docker login --username=yourhubusername --email=youremail@company.com
+        docker login --username=yourhubusername --password=iLike2MuvItMuvIt
 
 
-Then enter your password when prompted.
+**RECOMMENDED: USE _docker --password-stdin_ TO LOG IN SAFELY!!**
 
 
 Now we’ll need to check the image ID:
@@ -140,7 +140,7 @@ Now we’ll need to check the image ID:
 Your output should look something like this:
 
         REPOSITORY              TAG       IMAGE ID         CREATED           SIZE
-        hello-world              v1      056yb71fy406      5 minutes ago    1.076 GB
+        helloworld              v1      056yb71fy406      5 minutes ago    1.076 GB
         monty_grapher          latest    pp58734h67dd     12 minutes ago    1.658 GB
         steph/train            latest    9857j776f554      8 days ago       1.443 GB
 
@@ -148,12 +148,12 @@ Your output should look something like this:
 
 Update your image’s tag and the name of your Docker Hub repo:
 
-        docker tag 056yb71fy406 yourhubusername/hello-world:firstpush
+        docker tag 056yb71fy406 yourhubusername/hello_world:v1
 
 
 Finally, push the image to your Docker Hub repo:
 
-        docker push yourhubusername/hello-world
+        docker push yourhubusername/hello_world
 
 
 
@@ -162,7 +162,7 @@ Finally, push the image to your Docker Hub repo:
 
 We can test out our container image first by running this command (_be sure to replace ‘yourusername’ with your actual DockerHub username_):
 
-        docker run yourusername/hello-world:firstpush
+        docker run yourusername/hello_world:v1
 
 Then open a new tab in your terminal and enter: 
 
@@ -173,6 +173,12 @@ Lo and behold, there’s our _**‘Hello World’**_ message.
 
 
  ### What just happened?..
+ 
+
+Now we have a full blown application and a Docker image running in the cloud! 
+
+After we downloaded the application, we then created an image (which is an instance of a container) for our application to and it dependencies to live in. We then pushed that image to Docker Hub, Docker’s official container registry. Pushing our container to the cloud gives us the privilege of being able to access that container any given time, even if we tear down our local cluster, or if we want to pull that container to live in separate cluster. After that, we ran the container, binding our local port to the port of the container (_8080:8080_). 
+
 
 
 ## Deploy
@@ -186,7 +192,7 @@ Now how do we manage this Pod? Kubernetes provides a special supervisor for Pods
 
 To create a deployment, we’ll have to use Kubernetes’ kubectl for the following command:
 
-        kubectl run helloworld --image=hello-world:v1 --port=8080
+        kubectl run helloworld --image=yourusername/hello_world:v1 --port=8080
 
 
 
@@ -210,13 +216,9 @@ Now let’s take a look at our Pod:
 
 
 
-
-
-
 ### What just happened?..
 
-
-
+Woah! So now our container has become a “Pod”, and we’ve Kubernetes has granted us a manager to keep tabs on our Pods health, scaling and load-balancing, and versioning. So if we had an application with 3 Pods, each of then representing a feature, our deployment would give us control over how and when we can roll out each feature. Powerful stuff huh? Makes microservices that much smoother. Speaking of microservices, let’s move on to the next and final phase of the tutorial.
 
 
 
@@ -249,11 +251,11 @@ _Change line 16 in helloworld.go to:_
         
 Now we want to build a new version of our Docker image:
 
-        docker build -t yourhubusername/hello-world:v2 .
+        docker build -t yourhubusername/hello_world:v2 .
         
 Update the image for the Deployment:
 
-        kubectl set image deployment/helloworld helloworld=yourhubusername/hello-world:v2
+        kubectl set image deployment/helloworld helloworld=yourhubusername/hello_world:v2
 
 Now we can check for our updated message:
 
