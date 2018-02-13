@@ -1,4 +1,4 @@
-# Hello World: To FaaS or Not to FaaS
+# Hello World: Kubernetes
 
 
 Language: Golang
@@ -159,6 +159,37 @@ Lo and behold, there’s our _**‘Hello World’**_ message.
  ### What just happened?..
 
 
+## Deploy
+
+_Remember to stop the container from running by pressing Ctrl-C in the tab where you ran the docker run command._
+
+In Kubernetes, containers are interpreted as objects called Pods [link] (one or more containers in a group). The Pod in our cluster only has one container, the one we just created.
+
+Now how do we manage this Pod? Kubernetes provides a special supervisor for Pods called Deployments [link]. Deployments are responsible for monitoring and managing everything from scaling to version control for Pods. They also check and maintain the health of the containers within Pods. 
+
+
+To create a deployment, we’ll have to use Kubernetes’ kubectl for the following command:
+
+        kubectl run helloworld --image=hello-world:v1 --port=8080
+
+
+
+Once the Terminal confirms that your deployment has been created, we can view it by running
+
+        kubectl get deployments
+
+Your output should look something like this:
+
+        NAME         DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+        helloworld    1         1         1            1           3m
+
+
+Now let’s take a look at our Pod:
+
+        kubectl get pods
+
+        NAME                                         READY     STATUS    RESTARTS   AGE
+        helloworld-7447bd7d5d-lwnxh   1/1        Running              0            1m
 
 
 
@@ -166,9 +197,31 @@ Lo and behold, there’s our _**‘Hello World’**_ message.
 
 
 
+### What just happened?..
 
 
 
+
+
+
+## Create a Service
+
+In order to make our Pod accessible outside of the cluster, we have to create what’s called a _“Service”_. A Service creates a public IP address for the cluster and presents the individual IP addresses of each Pod as endpoints, allowing allow clients to access and connect to Pods and exposing applications to external traffic. Services also handle load-balancing amongst the Pods as well. 
+
+Go ahead and create a Service by running the command below:
+
+        kubectl expose deployment helloworld --type=LoadBalancer
+
+> Here we use the  **--type=LoadBalancer** flag to indicate that we want our Service to be exposed outside of our cluster.
+
+Now let’s test to see if our Service is accessible:
+
+        minikube service helloworld
+
+> This uses a local IP address that serves our app and opens up a browser displaying our “Hello World” message.
+
+
+## Updating your Application
 
 
 
