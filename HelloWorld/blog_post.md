@@ -77,7 +77,7 @@ After that, we configured Kubernetes’ command line-tool, **_kubectl_**, to com
 
 **_Insert diagram w/caption(s)_**
 
-
+----
 
 ## Let’s create our Golang application!
 
@@ -96,6 +96,7 @@ If you take a look inside the repo, a Dockerfile has already been created. A Doc
 
 In the next step, we’ll be packaging our application in a Docker container.
 
+----
 
 ## Create our Docker Image
 
@@ -109,6 +110,7 @@ Let’s double check to see if our build succeeded. If it was, we’ll see our i
         docker images
 
 
+---- 
 
 ### Push your Docker Image to the Cloud
 
@@ -154,11 +156,11 @@ Finally, push the image to your Docker Hub repo:
         docker push yourhubusername/hello_world
 
 
-
+---- 
 
 ### Run the Container
 
-We can test out our container image first by running this command (_be sure to replace ‘yourusername’ with your actual DockerHub username_):
+We can test out our container image locally first by running this command (_be sure to replace ‘yourusername’ with your actual DockerHub username_):
 
         docker run --p 8080:8080 yourusername/hello_world:v1
 
@@ -177,7 +179,7 @@ Now we have a full blown application and a Docker image running in the cloud!
 
 After we downloaded the application, we then created an image (which is an instance of a container) for our application to and it dependencies to live in. We then pushed that image to Docker Hub, Docker’s official container registry. Pushing our container to the cloud gives us the privilege of being able to access that container any given time, even if we tear down our local cluster, or if we want to pull that container to live in separate cluster. After that, we ran the container, binding our local port to the port of the container (_8080:8080_). 
 
-
+----
 
 ## Deploy
 
@@ -218,7 +220,7 @@ Now let’s take a look at our Pod:
 
 Woah! So now our container has become a “Pod”, and we’ve Kubernetes has granted us a manager to keep tabs on our Pod's health, scaling and load-balancing, and versioning. So if we had an application with 3 Pods, each of then representing a feature, our deployment would give us control over how and when we can roll out each feature. Powerful stuff huh? Makes microservices that much smoother. Speaking of microservices, let’s move on to the next and final phase of the tutorial.
 
-
+----
 
 ## Create a Service
 
@@ -236,6 +238,36 @@ Now let’s test to see if our Service is accessible:
 
 > This uses a local IP address that serves our app and opens up a browser displaying our “Hello World” message.
 
+
+---- 
+
+## Scaling our App
+
+Our application is now live for all the world to use! But what if all the world actually DOES start using it? I know, that could never happen right? But our Pod is still liable to get overworked and ultimately fail if the traffic becomes too heavy. Since Deployments manage the health of Pods, it’s only natural that they work hand-in-hand with Services as it pertains to handling load balancing amongst Pods. Deployments solve this issue by creating replica Pods to add the the cluster. 
+
+We can accomplish this by running the **_kubectl scale_** command. Let’s go ahead and use it to create 2 replicas:
+
+        kubectl scale deployment hello-world --replicas=3
+
+>Note: In order to create two replicas, we set the value to **_3_** because that will be the **total number** of Pods in the Deployment.
+
+
+Let’s check to see if the number of replicas have been updated:
+
+        kubectl get deployment hello-world
+        NAME        DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+        hello-world   3         3         3             2         1m
+
+
+        kubectl get pods
+        NAME                           READY     STATUS     RESTARTS      AGE
+        hello-world-5dc98cf5d6-7w9vs   1/1       Running       0          23h
+        hello-world-5dc98cf5d6-p2bxs   1/1       Running       0          16s
+        hello-world-5dc98cf5d6-scqhq   1/1       Running       0          16s
+
+And now our Service will automatically begin distributing traffic to all three Pods. 
+
+---- 
 
 ## Updating your Application
  
@@ -259,7 +291,7 @@ Now we can check for our updated message:
 
         minikube service helloworld
 
-
+---- 
 
 ## A Clean Finish
 
