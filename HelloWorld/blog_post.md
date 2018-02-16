@@ -114,7 +114,7 @@ Let’s double check to see if our build succeeded. If it was, we’ll see our i
 
 ### Push your Docker Image to the Cloud
 
-Now we need to push our container to a registry, so we’ll use DockerHub for this tutorial.
+Now we need to push our container to a **_registry_**. A container registry is library is a library of docker images. Docker hosts a free registry called [DockerHub](https://hub.docker.com), that’s the one we’ll be pushing our container to.
 
 If you’re running Docker for Mac, make sure you’re logged into your Docker account and that Docker is running on your machine. You can do that by clicking the Docker icon at the top of your screen. You should see a green light to verify that it’s running. 
 
@@ -126,10 +126,10 @@ Go to [https://hub.docker.com](https://hub.docker.com), log in, then create a re
 
 Now let’s log into the Docker Hub from the command line:
 
-        docker login --username=yourhubusername --password=iLike2MuvItMuvIt
+        docker login
 
 
-**RECOMMENDED: USE _docker --password-stdin_ TO LOG IN SAFELY!!**
+>Go ahead and enter your credentials when prompted.
 
 
 Now we’ll need to check the image ID:
@@ -140,7 +140,7 @@ Now we’ll need to check the image ID:
 Your output should look something like this:
 
         REPOSITORY              TAG       IMAGE ID         CREATED           SIZE
-        helloworld              v1      056yb71fy406      5 minutes ago    1.076 GB
+        helloworld              v1       056yb71fy406      5 minutes ago    1.076 GB
         monty_grapher          latest    pp58734h67dd     12 minutes ago    1.658 GB
         steph/train            latest    9857j776f554      8 days ago       1.443 GB
 
@@ -148,12 +148,12 @@ Your output should look something like this:
 
 Update your image’s tag and the name of your Docker Hub repo:
 
-        docker tag 056yb71fy406 yourhubusername/hello_world:v1
+        docker tag helloworld:v1 yourhubusername/hello-world:v1
 
 
 Finally, push the image to your Docker Hub repo:
 
-        docker push yourhubusername/hello_world
+        docker push yourhubusername/hello-world
 
 
 ---- 
@@ -162,7 +162,7 @@ Finally, push the image to your Docker Hub repo:
 
 We can test out our container image locally first by running this command (_be sure to replace ‘yourusername’ with your actual DockerHub username_):
 
-        docker run --p 8080:8080 yourusername/hello_world:v1
+        docker run --p 8080:8080 yourusername/hello-world:v1
 
 Then open a new tab in your terminal and enter: 
 
@@ -177,13 +177,12 @@ Lo and behold, there’s our _**‘Hello World’**_ message.
 
 Now we have a full blown application and a Docker image running in the cloud! 
 
-After we downloaded the application, we then created an image (which is an instance of a container) for our application to and it dependencies to live in. We then pushed that image to Docker Hub, Docker’s official container registry. Pushing our container to the cloud gives us the privilege of being able to access that container any given time, even if we tear down our local cluster, or if we want to pull that container to live in separate cluster. After that, we ran the container, binding our local port to the port of the container (_8080:8080_). 
+After we downloaded the application, we then created a container image for our application to and its dependencies to live in. We then pushed that image to Docker Hub, Docker’s official container registry. Pushing our container to the cloud gives us the abilty to access that container any given time, even if we tear down our local cluster, or if we want to pull that container to live in separate cluster. After that, we ran the container, binding our local port to the port of the container (_8080:8080_). 
 
 ----
 
 ## Deploy
 
-_Remember to stop the container from running by pressing Ctrl-C in the tab where you ran the docker run command._
 
 In Kubernetes, containers are interpreted as objects called [Pods](https://kubernetes.io/docs/concepts/workloads/pods/pod/) (one or more containers in a group). The Pod in our cluster only has one container, the one we just created.
 
@@ -192,7 +191,7 @@ Now how do we manage this Pod? Kubernetes provides a special supervisor for Pods
 
 To create a deployment, we’ll have to use Kubernetes’ kubectl for the following command:
 
-        kubectl run helloworld --image=yourusername/hello_world:v1 --port=8080
+        kubectl run helloworld --image=yourusername/hello-world:v1 --port=8080
 
 
 
@@ -211,14 +210,14 @@ Now let’s take a look at our Pod:
         kubectl get pods
 
         NAME                                         READY     STATUS    RESTARTS   AGE
-        helloworld-7447bd7d5d-lwnxh   1/1        Running              0            1m
+        helloworld-7447bd7d5d-lwnxh                   1/1      Running      0        1m
 
 
 
 
 ### What just happened?..
 
-Woah! So now our container has become a “Pod”, and we’ve Kubernetes has granted us a manager to keep tabs on our Pod's health, scaling and load-balancing, and versioning. So if we had an application with 3 Pods, each of then representing a feature, our deployment would give us control over how and when we can roll out each feature. Powerful stuff huh? Makes microservices that much smoother. Speaking of microservices, let’s move on to the next and final phase of the tutorial.
+Woah! So now our container lives inside a Pod, and we’ve Kubernetes has granted us a manager to keep tabs on our Pod's health, scaling and load-balancing, and versioning. So if we had an application with 3 Pods, each of then representing a feature, our deployment would give us control over how and when we can roll out each feature. Powerful stuff huh? Makes microservices that much smoother. Speaking of microservices, let’s move on to the next and final phase of the tutorial.
 
 ----
 
@@ -249,14 +248,14 @@ We can accomplish this by running the **_kubectl scale_** command. Let’s go ah
 
         kubectl scale deployment hello-world --replicas=3
 
->Note: In order to create two replicas, we set the value to **_3_** because that will be the **total number** of Pods in the Deployment.
+>Note: Since we are creating 2 more replicas, we set the value to **_3_** because that will be the **total number** of Pods in the Deployment.
 
 
 Let’s check to see if the number of replicas have been updated:
 
         kubectl get deployment hello-world
         NAME        DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-        hello-world   3         3         3             2         1m
+        hello-world   3         3           3            2        1m
 
 
         kubectl get pods
