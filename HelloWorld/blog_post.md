@@ -114,9 +114,11 @@ Let’s double check to see if our build succeeded. If it was, we’ll see our i
 
 ### Push your Docker Image to the Cloud
 
-Now we need to push our container to a **_registry_**. A container registry is library is a library of docker images. Docker hosts a free registry called [DockerHub](https://hub.docker.com), that’s the one we’ll be pushing our container to.
+Now we need to push our container to a **_registry_**. A container registry is library is a library of docker images. Docker hosts a free registry called DockerHub, that’s the one we’ll be pushing our container to.
 
 If you’re running Docker for Mac, make sure you’re logged into your Docker account and that Docker is running on your machine. You can do that by clicking the Docker icon at the top of your screen. You should see a green light to verify that it’s running. 
+
+First you’ll need to sign up to [create an account on DockerHub](https://hub.docker.com). 
 
 ([Click here for these instructions using other operating systems](https://docs.docker.com/docker-for-windows/install/).)
 
@@ -129,7 +131,19 @@ Now let’s log into the Docker Hub from the command line:
         docker login
 
 
->Go ahead and enter your credentials when prompted.
+Go ahead and enter your credentials when prompted.
+
+
+
+>If you’ve installed Docker for Mac, you can log into your Docker account by clicking the Docker whale icon at the top of your screen as shown below.
+
+***[insert screenshot here]**
+
+
+> The green light indicates that Docker is currently running. ([Click here for these instructions using other operating systems](https://docs.docker.com/docker-for-windows/install/).)
+
+
+
 
 
 Now we’ll need to check the image ID:
@@ -186,7 +200,7 @@ After we downloaded the application, we then created a container image for our a
 
 In Kubernetes, containers are interpreted as objects called [Pods](https://kubernetes.io/docs/concepts/workloads/pods/pod/) (one or more containers in a group). The Pod in our cluster only has one container, the one we just created.
 
-Now how do we manage this Pod? Kubernetes provides a special supervisor for Pods called [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/). Deployments are responsible for monitoring and managing everything from scaling to version control for Pods. They also check and maintain the health of the containers within Pods. 
+Now how do we manage this Pod? Kubernetes provides a special supervisor for Pods called [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/). Deployments are responsible for monitoring and managing everything from scaling, to version upgrades, to overall health of Pods.
 
 
 To create a deployment, we’ll have to use Kubernetes’ kubectl for the following command:
