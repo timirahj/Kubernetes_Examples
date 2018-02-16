@@ -10,6 +10,7 @@ Containerization: **Docker (+DockerHub)**
 Driver/Hypervisor: **xhyve**
 
 
+Over the past 3 or so years, it seems the term “containerization” and the name “Kubernetes” have been amplified throughout the tech community non-stop. Even with that being so, as a developer, it can be easy to shy away from Kubernetes as its learning curve is notorious for being a steep one. But everyone’s gotta start somewhere, right? This tutorial will give you a basic overview of some of main features of Kubernetes, while walking you through the process of running a simple HelloWorld Golang application locally on your machine to running it on Kubernetes. 
 
 
 
@@ -22,6 +23,7 @@ Driver/Hypervisor: **xhyve**
 
 
 **Now let’s get into it!**
+
 
 ## Create a Minikube Cluster:
 
@@ -250,7 +252,7 @@ The Kubernetes dashboard is super handy, giving a clean and straightforward visu
 
 ## Create a Service
 
-In order to make our Pod accessible outside of the cluster, we have to create what’s called a _“Service”_. A service provides an IP address that maps to a set of pods with identical labels. 
+In order to make our Pod accessible outside of the cluster, we have to create what’s called a _“Service”_. A service provides an IP address that maps to a set of pods with identical [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors). 
 
 Every Pod is born with its own unique IP address. When a service is created, the IP addresses of Pods become endpoints of the service, and the service load-balances over its endpoints. A service can also exclusively internal to the cluster. The internal/external state of a Service is controlled by setting a _Service Type_. When set to type **LoadBalancer**, the service is made public and the IP address is exposed from the cluster and mapped to the endpoints (i.e. the Pods).
 
@@ -275,7 +277,7 @@ Now let’s test to see if our Service is accessible:
 
 ## Scaling our App
 
-Our application is now live for all the world to use! But what if all the world actually DOES start using it? I know, that could never happen right? But our Pod is still liable to get overworked and ultimately fail if the traffic becomes too heavy. Since Deployments manage the health of Pods, it’s only natural that they work hand-in-hand with Services as it pertains to handling load balancing amongst Pods. Deployments solve this issue by creating replica Pods to add the the cluster. 
+Our application is available for external use! But what if there’s too much usage? Too many requests, too much traffic? Our Pod is still liable to get overworked and ultimately fail if the traffic becomes too heavy. Deployments solve this issue by creating replica Pods to add the the cluster. You can define how many replicas you need to be running at all times.
 
 We can accomplish this by running the **_kubectl scale_** command. Let’s go ahead and use it to create 2 replicas:
 
@@ -297,13 +299,14 @@ Let’s check to see if the number of replicas have been updated:
         hello-world-5dc98cf5d6-p2bxs   1/1       Running       0          16s
         hello-world-5dc98cf5d6-scqhq   1/1       Running       0          16s
 
-And now our Service will automatically begin distributing traffic to all three Pods. 
+And now our Service will automatically begin distributing traffic amongst these three Pods.  
 
 ---- 
 
 ## Updating your Application
  
-So now application is exposed, but now what if we need to make changes! Let’s see what our We want to change our message from _“Hello World!!”_ to _“Finally Completed this Tutorial!!”_. 
+Now what if we need go and to make changes to our application? What if we want to change our message from_ “Hello World!!”_ to _“Finally Completed this Tutorial!!”_?
+
 
 Let’s go into our source code (_helloworld.go file_) for our application and change it to return our new message.
 
