@@ -250,7 +250,13 @@ The Kubernetes dashboard is super handy, giving a clean and straightforward visu
 
 ## Create a Service
 
-In order to make our Pod accessible outside of the cluster, we have to create what’s called a _“Service”_. A Service creates a public IP address for the cluster and presents the individual IP addresses of each Pod as endpoints, allowing allow clients to access and connect to Pods and exposing applications to external traffic. Services also handle load-balancing amongst the Pods as well. 
+In order to make our Pod accessible outside of the cluster, we have to create what’s called a _“Service”_. A service provides an IP address that maps to a set of pods with identical labels. 
+
+Every Pod is born with its own unique IP address. When a service is created, the IP addresses of Pods become endpoints of the service, and the service load-balances over its endpoints. A service can also exclusively internal to the cluster. The internal/external state of a Service is controlled by setting a _Service Type_. When set to type **LoadBalancer**, the service is made public and the IP address is exposed from the cluster and mapped to the endpoints (i.e. the Pods).
+
+
+**[ insert diagram on service here ]**
+ 
 
 Go ahead and create a Service by running the command below:
 
