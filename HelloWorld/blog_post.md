@@ -188,10 +188,7 @@ Lo and behold, there’s our _**‘Hello World’**_ message.
 
  ### What just happened?..
  
-
-Now we have a full blown application and a Docker image running in the cloud! 
-
-After we downloaded the application, we then created a container image for our application to and its dependencies to live in. We then pushed that image to Docker Hub, Docker’s official container registry. Pushing our container to the cloud gives us the abilty to access that container any given time, even if we tear down our local cluster, or if we want to pull that container to live in separate cluster. After that, we ran the container, binding our local port to the port of the container (_8080:8080_). 
+So after we downloaded the application, we then created a container image for our application to and its dependencies to live in. We then pushed that image to Docker Hub, Docker’s official container registry. Pushing our container to the cloud gives us the abilty to access that container any given time, even if we tear down our local cluster, or if we want to pull that container to live in separate cluster. After that, we ran the container, binding our local port to the port of the container (_8080:8080_). 
 
 ----
 
@@ -231,7 +228,23 @@ Now let’s take a look at our Pod:
 
 ### What just happened?..
 
-Woah! So now our container lives inside a Pod, and we’ve Kubernetes has granted us a manager to keep tabs on our Pod's health, scaling and load-balancing, and versioning. So if we had an application with 3 Pods, each of then representing a feature, our deployment would give us control over how and when we can roll out each feature. Powerful stuff huh? Makes microservices that much smoother. Speaking of microservices, let’s move on to the next and final phase of the tutorial.
+Woah! So now our container lives inside a Pod, and Kubernetes has given us a manager, a Deployment, to keep tabs on our Pods health, scaling and load-balancing, and versioning. 
+
+
+Now let’s take a look at this via the **Kubernetes dashboard**. Open the dashboard in your browser with this command:
+
+        minikube dashboard
+
+
+You should see something similar to this…
+
+[insert dashboard image here]
+
+
+It’s your cluster in the flesh! The top centered section displays the statuses of your workloads within the cluster. Workloads are objects used to manage and run your containers in your cluster -- so for example, you should see circles that represent your Pods, Deployments, and Replica Sets. Each of those objects fall in the workload category. The circles are pass/fail pie charts, with green indicating the percentage of success and red indicating the percentage of failures. For example, let’s say we have 3 Pods in our cluster, and 1 of our Pods has died for whatever reason. The Pod chart would be shown as mostly green representing 67% and partially red representing 33%.
+
+The Kubernetes dashboard is super handy, giving a clean and straightforward visual representation for all the elements related to our cluster. 
+
 
 ----
 
