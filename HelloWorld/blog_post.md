@@ -346,8 +346,7 @@ Stop Minikube, then delete it:
 
 
 
-
-## Further Reading 
+## Keep Learning!! (Further Reading)
 *[Docker](https://docs.docker.com/)
 *[Kubernetes By Example](http://kubernetesbyexample.com/)
 *[Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
