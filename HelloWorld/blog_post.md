@@ -70,18 +70,12 @@ Now let’s check to see if kubectl is all configured to interact with our clust
 
 So the first thing we did was create a Kubernetes cluster via a VM called Minikube. MiniKube is a popular tool used to run Kubernetes locally. Then we installed a hypervisor (xhyve) for Docker to run on Minikube.
 
-
-**_Insert diagram w/caption(s)_**
-
 After that, we configured Kubernetes’ command line-tool, **_kubectl_**, to communicate specifically with our minikube cluster. 
 
 
-
-**_Insert diagram w/caption(s)_**
-
 ----
 
-## Let’s create our Golang application!
+## Now Let’s Create our Golang application!
 
 
 Go and download the HelloWorld source code by running the commands below:
@@ -89,11 +83,11 @@ Go and download the HelloWorld source code by running the commands below:
         git clone https://github.com/timirahj/kubernetes_examples
         cd kubernetes_examples/helloworld
 
-> Our app is an http web server that prints a simple "Hello World" message. You can give it a test run using 
+> Our app is a simple http web server that prints a "Hello World" message. You can give it a test run using 
 **go run helloworld.go** and then opening **http://localhost:8080** in your browser.
 
 
-If you take a look inside the repo, a Dockerfile has already been created. A Dockerfile typically contains all the instructions on how the image is built. However, if you open our Dockerfile, you will notice that it looks a little vague with only two simple commands. Is this Dockerfile complete? Actually, yes! Golang has a variant called “onbuild” which simplifies the build process for our Docker image. When we use the onbuild variant, we’re implying that our image application should be built with generalized instructions as any generic Go application, and the image automatically copies the package source then builds the program and configures it to run upon startup. 
+>**NOTE**: If you take a look inside the repo, a Dockerfile has already been created. A Dockerfile typically contains all the instructions on how the image is built. However, if you open our Dockerfile, you will notice that it looks a little vague with only two simple commands. Is this Dockerfile complete? Actually, yes! Golang has a variant called “onbuild” which simplifies the build process for our Docker image. When we use the onbuild variant, we’re implying that our image application should be built with generalized instructions as any generic Go application, and the image automatically copies the package source then builds the program and configures it to run upon startup. 
 
 
 In the next step, we’ll be packaging our application in a Docker container.
@@ -139,7 +133,6 @@ Go ahead and enter your credentials when prompted.
 
 >If you’ve installed Docker for Mac, you can log into your Docker account by clicking the Docker whale icon at the top of your screen as shown below.
 
-***[insert screenshot here]**
 
 ![docker-image](Kubernetes_Examples/HelloWorld/assets/Docker-screenshot.png)
 
@@ -258,8 +251,6 @@ In order to make our Pod accessible outside of the cluster, we have to create wh
 
 Every Pod is born with its own unique IP address. When a service is created, the IP addresses of Pods become endpoints of the service, and the service load-balances over its endpoints. A service can also exclusively internal to the cluster. The internal/external state of a Service is controlled by setting a _Service Type_. When set to type **LoadBalancer**, the service is made public and the IP address is exposed from the cluster and mapped to the endpoints (i.e. the Pods).
 
-
-**[ insert diagram on service here ]**
  
 
 Go ahead and create a Service by running the command below:
@@ -273,6 +264,11 @@ Now let’s test to see if our Service is accessible:
         minikube service helloworld
 
 > This uses a local IP address that serves our app and opens up a browser displaying our “Hello World” message.
+
+
+![service image](Kubernetes_Examples/HelloWorld/assets/K8s_Diagrams1-4-1.jpg)
+
+> Check out this diagram of our service.
 
 
 ---- 
@@ -301,16 +297,19 @@ Let’s check to see if the number of replicas have been updated:
         hello-world-5dc98cf5d6-p2bxs   1/1       Running       0          16s
         hello-world-5dc98cf5d6-scqhq   1/1       Running       0          16s
 
-And now our Service will automatically begin distributing traffic amongst these three Pods.  
+And now our Service will automatically begin distributing traffic amongst these three Pods. 
+
+![service-image-update](Kubernetes_Examples/HelloWorld/assets/Service_Diagrams1-3.jpg)
+
 
 ---- 
 
 ## Updating your Application
  
-Now what if we need go and to make changes to our application? What if we want to change our message from_ “Hello World!!”_ to _“Finally Completed this Tutorial!!”_?
+Now what if we need go and to make changes to our application? What if we want to change our message from _“Hello World!!”_ to _“Finally Completed this Tutorial!!”_?
 
 
-Let’s go into our source code (_helloworld.go file_) for our application and change it to return our new message.
+Let’s go into our source code (**_helloworld.go file_**) for our application and change it to return our new message.
 
 _Change line 16 in helloworld.go to:_
  
